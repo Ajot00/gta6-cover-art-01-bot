@@ -5,7 +5,7 @@ export async function runShot(shot,query,load){
   const e=window.vicePress;
   if(shot==='cover'){
     const size=query.get('size')||'landscape',dims={landscape:[1920,1080],portrait:[1080,1350],square:[1080,1080]}[size]||[1920,1080];
-    e.state.width=dims[0];e.state.height=dims[1];e.state.size=size;e.state.layout=query.get('layout')||'hero';e.state.grade=query.get('grade')||'sunset';e.state.panelCrops=Array.from({length:9},(_,i)=>({x:i%2?.65:.35,y:.04+(i%3)*.08}));
+    e.state.width=dims[0];e.state.height=dims[1];e.state.size=size;e.state.layout=query.get('layout')||'hero';e.state.grade=query.get('grade')||'sunset';e.state.panelCrops=e.state.layout==='four'?[{x:.05,y:.05,zoom:1.06},{x:.5,y:.05,zoom:1.1},{x:.95,y:.18,zoom:1.1},{x:.5,y:.18,zoom:1.06},...Array.from({length:5},()=>({x:.5,y:.2}))]:Array.from({length:9},(_,i)=>({x:i%2?.65:.35,y:.04+(i%3)*.08}));
     e.state.subtitle=query.get('subtitle')||'A city that never lets go';e.repaint();document.body.classList.add('shot-cover');
   }else if(shot==='editor'){
     e.state.assignments=[0,1,0,1,0,1,0,1,0];e.state.panelCrops=Array.from({length:9},(_,i)=>({x:i%2?.65:.35,y:.04+(i%3)*.08}));
