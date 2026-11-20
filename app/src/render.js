@@ -10,7 +10,7 @@ function photo(ctx,img,rect,crop,scale){
   ctx.drawImage(img,x-ox,y-oy,dw,dh);
 }
 function colorWash(ctx,w,h,grade){
-  ctx.save();ctx.globalCompositeOperation='soft-light';ctx.globalAlpha=grade.strength;const g=ctx.createLinearGradient(0,h*.05,w,h*.92);for(const [p,c] of grade.stops)g.addColorStop(p,c);ctx.fillStyle=g;ctx.fillRect(0,0,w,h);ctx.restore();
+  ctx.save();ctx.globalCompositeOperation='color';ctx.globalAlpha=grade.strength;const g=ctx.createLinearGradient(0,h*.05,w,h*.92);for(const [p,c] of grade.stops)g.addColorStop(p,c);ctx.fillStyle=g;ctx.fillRect(0,0,w,h);ctx.restore();
   if(grade.sat===0){ctx.save();ctx.globalCompositeOperation='saturation';ctx.fillStyle='#777';ctx.fillRect(0,0,w,h);ctx.restore();}
 }
 function texture(ctx,w,h,seed){
@@ -25,7 +25,7 @@ export function renderCover(canvas,state){
   const pad=Math.round(Math.min(w,h)*.023),gap=Math.round(Math.min(w,h)*.012),inner={x:pad,y:pad,w:w-pad*2,h:h-pad*2};
   const cells=layout.rects.map(r=>({x:inner.x+r[0]*inner.w,y:inner.y+r[1]*inner.h,w:r[2]*inner.w,h:r[3]*inner.h}));
   ctx.save();ctx.beginPath();
-  for(let i=0;i<cells.length;i++){const c=cells[i],tilt=layout.kind==='tilt';ctx.save();ctx.beginPath();if(tilt){const skew=Math.min(c.w*.12,gap*1.2);ctx.moveTo(c.x+skew,c.y);ctx.lineTo(c.x+c.w,c.y);ctx.lineTo(c.x+c.w-skew,c.y+c.h);ctx.lineTo(c.x,c.y+c.h);ctx.closePath();}else ctx.rect(c.x,c.y,c.w,c.h);ctx.clip();const item=(state.photos||[])[(state.assignments?.[i]??i)%(state.photos?.length||1)];if(item?.image)photo(ctx,item.image,c,state.crops?.[item.id]||{},1);else{const g=ctx.createLinearGradient(c.x,c.y,c.x+c.w,c.y+c.h);g.addColorStop(0,'#d76e65');g.addColorStop(.5,'#734887');g.addColorStop(1,'#152d55');ctx.fillStyle=g;ctx.fillRect(c.x,c.y,c.w,c.h);}colorWash(ctx,w,h,grade);ctx.restore();}
+  for(let i=0;i<cells.length;i++){const c=cells[i],tilt=layout.kind==='tilt';ctx.save();ctx.beginPath();if(tilt){const skew=Math.min(c.w*.12,gap*1.2);ctx.moveTo(c.x+skew,c.y);ctx.lineTo(c.x+c.w,c.y);ctx.lineTo(c.x+c.w-skew,c.y+c.h);ctx.lineTo(c.x,c.y+c.h);ctx.closePath();}else ctx.rect(c.x,c.y,c.w,c.h);ctx.clip();const item=(state.photos||[])[(state.assignments?.[i]??i)%(state.photos?.length||1)];if(item?.image){const crop=state.panelCrops?.[i]??state.crops?.[item.id]??{};photo(ctx,item.image,c,crop,1);}else{const g=ctx.createLinearGradient(c.x,c.y,c.x+c.w,c.y+c.h);g.addColorStop(0,'#d76e65');g.addColorStop(.5,'#734887');g.addColorStop(1,'#152d55');ctx.fillStyle=g;ctx.fillRect(c.x,c.y,c.w,c.h);}colorWash(ctx,w,h,grade);ctx.restore();}
   ctx.restore();
   // Inked gutters and an outside paper keyline keep every composition reading as a cover.
   ctx.strokeStyle='#fff1e5';ctx.lineWidth=Math.max(3,gap*.48);ctx.lineJoin='round';

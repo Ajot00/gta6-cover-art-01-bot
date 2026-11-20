@@ -9,5 +9,5 @@ export function createEditor(){
  const repaint=()=>renderCover(canvas,state);return {canvas,state,repaint,sizes,layouts,grades};
 }
 const editor=createEditor();window.vicePress=editor;editor.repaint();
-if(new URLSearchParams(location.search).has('shot'))await runShot(new URLSearchParams(location.search).get('shot'),new URLSearchParams(location.search),async(path,caption)=>{await loadSample(path);editor.state.caption=caption.toUpperCase();editor.repaint();});
-async function loadSample(path){const image=new Image();image.src=path;await image.decode();editor.state.photos=[{id:'shot-photo',name:path.split('/').pop(),image,url:path}];editor.state.assignments.fill(0);editor.repaint();}
+if(new URLSearchParams(location.search).has('shot'))await runShot(new URLSearchParams(location.search).get('shot'),new URLSearchParams(location.search),async(path,caption,secondPhoto)=>{await loadSample(path,secondPhoto);editor.state.caption=caption.toUpperCase();editor.repaint();});
+async function loadSample(path,secondPhoto){const image=new Image();image.src=path;await image.decode();editor.state.photos=[{id:'shot-photo',name:path.split('/').pop(),image,url:path}];if(secondPhoto){const extra=new Image();extra.src=secondPhoto;await extra.decode();editor.state.photos.push({id:'shot-alternate',name:secondPhoto.split('/').pop(),image:extra,url:secondPhoto});}editor.state.assignments=[0,1,0,1,0,1,0,1,0];editor.repaint();}
