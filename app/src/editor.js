@@ -1,6 +1,7 @@
 import {createEditor} from './main.js';
 import {renderCover} from './render.js';
 const e=window.vicePress||createEditor(),{state}=e;
+if(!new URLSearchParams(location.search).has('shot'))state.cropHandles=true;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const sizeOptions=[['square','1080 × 1080'],['portrait','1080 × 1350'],['landscape','1920 × 1080']];
 const toast=(msg)=>{const el=$('#toast');el.textContent=msg;el.classList.add('show');clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.classList.remove('show'),2100);};
@@ -34,6 +35,6 @@ const cv=$('#preview');let drag=null;
 cv.addEventListener('pointerdown',ev=>{const box=cv.getBoundingClientRect(),x=(ev.clientX-box.left)/box.width,y=(ev.clientY-box.top)/box.height;const l=e.layouts.find(q=>q.id===state.layout);const panel=l.rects.findIndex(r=>x>=r[0]&&x<=r[0]+r[2]&&y>=r[1]&&y<=r[1]+r[3]);state.selected=Math.max(0,panel);refreshPanels();const p=state.photos[state.selected%Math.max(state.photos.length,1)];if(p){const c=state.crops[p.id]??={x:.5,y:.5,zoom:1};drag={id:p.id,x:ev.clientX,y:ev.clientY,cx:c.x,cy:c.y};cv.setPointerCapture(ev.pointerId);}});
 cv.addEventListener('pointermove',ev=>{if(!drag)return;const c=state.crops[drag.id],amp=Math.max(1,(c.zoom||1)-.55);c.x=Math.max(0,Math.min(1,drag.cx-(ev.clientX-drag.x)/cv.clientWidth/amp));c.y=Math.max(0,Math.min(1,drag.cy-(ev.clientY-drag.y)/cv.clientHeight/amp));draw();});cv.addEventListener('pointerup',()=>{if(drag){drag=null;record();}});
 cv.addEventListener('wheel',ev=>{const p=state.photos[state.selected];if(!p)return;ev.preventDefault();const c=state.crops[p.id]??={x:.5,y:.5,zoom:1};c.zoom=Math.max(1,Math.min(2.8,c.zoom+(ev.deltaY<0?.06:-.06)));$('#zoom').value=c.zoom;$('#zoomValue').textContent=`${c.zoom.toFixed(1)}×`;draw();record();},{passive:false});
-function exportPng(){const target=document.createElement('canvas');renderCover(target,state);target.toBlob(blob=>{if(!blob){toast('Could not export this cover');return;}const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`vice-press-${state.width}x${state.height}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000);toast(`PNG ready · ${state.width} × ${state.height}`);},'image/png');}
+function exportPng(){const target=document.createElement('canvas');renderCover(target,{...state,cropHandles:false});target.toBlob(blob=>{if(!blob){toast('Could not export this cover');return;}const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`vice-press-${state.width}x${state.height}.png`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),3000);toast(`PNG ready · ${state.width} × ${state.height}`);},'image/png');}
 $('#export').onclick=exportPng;$('#exportTop').onclick=exportPng;$('#undo').onclick=()=>restore(hpos-1);$('#redo').onclick=()=>restore(hpos+1);
 buildOptions();sync();refreshPhotos();

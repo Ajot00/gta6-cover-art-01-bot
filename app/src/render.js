@@ -34,5 +34,13 @@ export function renderCover(canvas,state){
   texture(ctx,w,h,(state.caption||'VICE').length*211+(state.layout||'').length*43);
   // Restrained dot screen in the title area echoes printed poster stock.
   const band=h*.235;ctx.save();ctx.globalAlpha=.16;ctx.fillStyle='#ff9bb3';for(let y=h-band+gap;y<h-gap;y+=gap*.83)for(let x=gap;x<w-gap;x+=gap*.83)if((Math.floor(x/gap)+Math.floor(y/gap))%2===0)ctx.fillRect(x,y,Math.max(2,gap*.18),Math.max(2,gap*.18));ctx.restore();
-  drawLettering(ctx,w,h,state);return canvas;
+  drawLettering(ctx,w,h,state);
+  if(state.cropHandles){
+    const c=cells[Math.max(0,Math.min(cells.length-1,state.selected||0))],s=Math.max(16,Math.min(w,h)*.024),lw=Math.max(4,s*.16);
+    ctx.save();ctx.strokeStyle='#70f7ff';ctx.lineWidth=lw;ctx.strokeRect(c.x+lw,c.y+lw,c.w-2*lw,c.h-2*lw);
+    ctx.fillStyle='#70f7ff';for(const [x,y] of [[c.x,c.y],[c.x+c.w,c.y],[c.x,c.y+c.h],[c.x+c.w,c.y+c.h]])ctx.fillRect(x-s/2,y-s/2,s,s);
+    const label='CROP · DRAG TO REFRAME';ctx.font=`700 ${Math.max(30,Math.min(w,h)*.032)}px Arial, sans-serif`;const chipW=ctx.measureText(label).width+s*.8,chipH=Math.max(48,s*1.8),cx=c.x+lw*2,cy=c.y+lw*2;
+    ctx.fillStyle='rgba(15,12,25,.94)';ctx.fillRect(cx,cy,chipW,chipH);ctx.fillStyle='#fff';ctx.textBaseline='middle';ctx.fillText(label,cx+s*.4,cy+chipH/2);ctx.restore();
+  }
+  return canvas;
 }
