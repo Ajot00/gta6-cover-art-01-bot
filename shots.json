@@ -1,6 +1,6 @@
 [
-  {"name":"1-cover-fix2.jpg","query":"?shot=cover&photo=pier&caption=SUNSET%20RUN&subtitle=A%20city%20that%20never%20lets%20go&layout=hero&grade=sunset","w":1280,"h":720},
-  {"name":"2-editor-fix2.jpg","query":"?shot=editor&photo=boulevard&caption=BOULEVARD%20QUEEN","w":1280,"h":900},
-  {"name":"3-cover-portrait-fix2.jpg","query":"?shot=cover&photo=boulevard&caption=PALM%20AFTERGLOW&subtitle=The%20night%20is%20still%20young&layout=four&grade=neon&size=portrait","w":720,"h":900},
-  {"name":"4-cover-square-fix2.jpg","query":"?shot=cover&photo=pier&caption=GOLDEN%20HOUR&subtitle=Leave%20the%20lights%20on&layout=tilt&grade=gold&size=square","w":900,"h":900}
+  {"name":"1-cover-fix1.jpg","query":"?shot=cover&photo=pier&caption=SUNSET%20RUN&subtitle=A%20city%20that%20never%20lets%20go&layout=hero&grade=sunset","w":1280,"h":720},
+  {"name":"2-editor-fix1.jpg","query":"?shot=editor&photo=boulevard&caption=BOULEVARD%20QUEEN","w":1280,"h":900},
+  {"name":"3-cover-portrait-fix1.jpg","query":"?shot=cover&photo=boulevard&caption=PALM%20AFTERGLOW&subtitle=The%20night%20is%20still%20young&layout=four&grade=neon&size=portrait","w":720,"h":900},
+  {"name":"4-cover-square-fix1.jpg","query":"?shot=cover&photo=pier&caption=GOLDEN%20HOUR&subtitle=Leave%20the%20lights%20on&layout=tilt&grade=gold&size=square","w":900,"h":900}
 ]
