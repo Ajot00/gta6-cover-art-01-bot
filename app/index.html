@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101019">
+  <title>Vice Press — Make a cover worth keeping</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Vice Press home"><span class="brand-mark">VP</span><span>VICE <b>PRESS</b><small>YOUR CITY. YOUR STORY.</small></span></a>
+    <div class="top-note"><span class="live-dot"></span> PRIVATE EDITOR <i>·</i> NO UPLOADS</div>
+    <button id="exportTop" class="button button-hot">Export PNG <span>↗</span></button>
+  </header>
+  <main class="workspace">
+    <section class="canvas-column">
+      <div class="section-head"><div><span class="eyebrow">COVER STUDIO</span><h1>Make your <em>moment.</em></h1></div><span class="step-pill">01 <span>/</span> 03</span></div>
+      <div class="stage" id="stage">
+        <div class="stage-meta"><span><i class="live-dot"></i> LIVE PREVIEW</span><span id="dimensions">1920 × 1080</span></div>
+        <canvas id="preview" width="960" height="540" aria-label="Live cover preview"></canvas>
+        <div class="stage-hint">DRAG A PANEL TO REFRAME <span>·</span> SCROLL TO ZOOM</div>
+      </div>
+      <div class="canvas-footer"><div class="cover-name"><span class="cover-icon">✦</span><span><b id="coverLabel">Untitled cover</b><small>VICE PRESS ORIGINAL</small></span></div><div class="zoom-readout"><span class="live-dot"></span> AUTO-FIT PREVIEW</div></div>
+      <div class="size-row"><span class="row-label">CANVAS SIZE</span><div class="segmented" id="sizes"></div><button class="button button-primary" id="export">Export cover <span>↓</span></button></div>
+    </section>
+    <aside class="panel-column">
+      <div class="side-title"><div><span class="eyebrow">THE CUT</span><h2>Build the story</h2></div><span class="number-badge">01</span></div>
+      <section class="control-block">
+        <div class="block-heading"><span class="step-number">1</span><div><b>Your frames</b><small>Add photos, then make the crop yours.</small></div><button id="addPhotos" class="icon-button" title="Add photos">＋</button></div>
+        <input id="fileInput" type="file" accept="image/*" multiple hidden>
+        <div id="dropzone" class="dropzone" tabindex="0"><span class="upload-glyph">↥</span><span><b>Drop photos here</b><small>or <u>browse files</u> · paste from clipboard</small></span><kbd>JPG · PNG</kbd></div>
+        <div class="thumb-strip" id="thumbs"></div>
+        <div class="panel-picker" id="panelPicker"></div>
+        <div class="range-line"><label for="zoom">Selected crop zoom</label><output id="zoomValue">1.0×</output></div><input id="zoom" class="range" type="range" min="1" max="2.8" value="1" step="0.01">
+      </section>
+      <section class="control-block compact-block">
+        <div class="block-heading"><span class="step-number">2</span><div><b>Choose the frame</b><small>Six poster cuts, one good angle.</small></div></div>
+        <div class="select-grid" id="layouts"></div>
+      </section>
+      <section class="control-block compact-block">
+        <div class="block-heading"><span class="step-number">3</span><div><b>Set the mood</b><small>Color grade & headline treatment.</small></div></div>
+        <div id="grades" class="grade-list"></div>
+      </section>
+      <section class="control-block type-block">
+        <div class="block-heading"><span class="step-number">4</span><div><b>Put a name on it</b><small>Your title is the finishing touch.</small></div><div class="history"><button id="undo" title="Undo">↶</button><button id="redo" title="Redo">↷</button></div></div>
+        <label class="field-label" for="caption">COVER TITLE</label><input id="caption" class="text-field title-field" maxlength="30" value="SUNSET RUN">
+        <label class="field-label" for="subtitle">NEON SUBTITLE</label><input id="subtitle" class="text-field" maxlength="42" value="A city that never lets go">
+      </section>
+      <p class="privacy-note"><span>◈</span> Photos stay on this device. Nothing is uploaded.</p>
+    </aside>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="src/editor.js"></script>
+</body>
+</html>
